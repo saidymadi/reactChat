@@ -1,7 +1,7 @@
 {
-  "name": "express-react-redux-starter",
+  "name": "chatclient-express-react-redux",
   "version": "1.0.0",
-  "description": "Starter for Express, React, Redux, SCSS applications",
+  "description": "A lightweight prototype chat client using React Redux Socket.IO",
   "scripts": {
     "dev": "webpack-dev-server --config ./webpack/webpack-dev.config.js --watch --colors",
     "build": "rm -rf dist && webpack --config ./webpack/webpack-prod.config.js --colors",
@@ -26,10 +26,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DimitriMikadze/express-react-redux-starter"
+    "url": "https://github.com/saidymadi/reactChat.git"
   },
-  "author": "Dimitri Mikadze",
-  "license": "MIT",
+  "author": "Said Madi",
+  "license": "",
   "devDependencies": {
     "babel-core": "^6.8.0",
     "babel-loader": "^6.2.4",
@@ -56,7 +56,11 @@
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
     "webpack": "^1.13.0",
-    "webpack-dev-server": "^1.14.1"
+    "webpack-dev-server": "^1.14.1",
+	"redux-devtools": "^3.0.0",
+    "redux-devtools-dock-monitor": "^1.0.1",
+    "redux-devtools-log-monitor": "^1.0.1",
+    "redux-mock-store": "0.0.4"
   },
   "dependencies": {
     "express": "^4.13.4",
@@ -64,6 +68,11 @@
     "react-dom": "^15.0.2",
     "react-redux": "^4.4.5",
     "react-router": "^2.4.0",
-    "redux": "^3.5.2"
+    "redux": "^3.5.2",
+	s"socket.io": "^1.3.5",
+    "socket.io-client": "^1.4.0",
+	"redux-form": "^4.2.0",
+    "redux-thunk": "^1.0.0",
+	"lodash": "^3.9.3"
   }
 }
