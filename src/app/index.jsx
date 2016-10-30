@@ -19,7 +19,7 @@ const rootElement = document.getElementById('app-container');
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router /*onUpdate={() => window.scrollTo(0, 0)}*/ history={browserHistory}>
+    <Router	history={browserHistory}>
       <Route path="/" component={App}>
     
        
