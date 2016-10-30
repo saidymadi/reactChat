@@ -11,6 +11,8 @@ import Home from './components/home/Home';
 import reducers from './reducers';
 
 import './components/bundle.scss';
+import io from 'socket.io-client';
+const socket = io.connect();
 
 const createStoreWithMiddleware = applyMiddleware()(createStore);
 const store = createStoreWithMiddleware(reducers);
