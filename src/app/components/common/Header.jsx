@@ -1,22 +1,24 @@
-import React from 'react';
 import { Link } from 'react-router';
+import React, { PropTypes , Component } from 'react';
 
 /*
 For this challenge I could have gotten away without using any routes (since they are not needed)
 but I only added it as practice to touch on the router .
 */
-function Header() {
-  return (
-    <header>
-      <nav>
-        <ul>
-          <li>
-            <Link to="/">Elixir Chat</Link>
-          </li>
-        </ul>
-      </nav>
-    </header>
-  )
-}
+export default class Header extends Component {
 
-export default Header;
+
+  render(){
+     return (
+      <header>
+        <nav>
+         <ul>
+           <li>
+             <Link to="/">Chat Client</Link>
+           </li>
+         </ul>
+       </nav>
+      </header>
+    );
+  }
+}

@@ -29,10 +29,11 @@ header {
       li {
         display: inline;
         margin-right: 60px;
-
+        color: $stylishRed;
+          
         a {
           color: $stylishRed;
-          text-decoration: none;
+          
 
           &:hover {
             color: $light-blue;
