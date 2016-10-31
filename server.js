@@ -39,7 +39,7 @@ var io = require('socket.io').listen(server);
 io.sockets.on('connection', function(socket) {
     connections.push(socket);
 
-
+   console.log("connected one user . connections count : " + connections.length);
     
     socket.on('disconnect', function(socket) {
         connections.splice(connections.indexOf(socket), 1);

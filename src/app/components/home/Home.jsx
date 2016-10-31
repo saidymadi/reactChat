@@ -126,14 +126,22 @@ handleAddMessage() {
 
    var msgItems = this.props.messages.map((item) => {
           if(this.props.socket.io.engine.id != item.socketId){
-            return (<li style={{padding:"0px" , marginBottom:"6px" , border:"none" , color : "grey",textAlign: "left" , width: "50%" , wordWrap: "normal" , float: "right"}} className="list-group-item animated fadeIn" key={item.id}>
-               <button style={{width: "100%"}} className="btn btn-secondary">  {item.user.name} : {item.msg}</button>
+            return (<li style={{padding:"0px" , marginBottom:"6px" , border:"none" , wordWrap: "normal" , textAlign: "left" }} 
+              className="list-group-item animated fadeIn" 
+              key={item.id}>
+               
+                <span style={{color : "black"}}> {item.user.name} : </span> 
+                <span style={{color : "grey" }}> {item.msg}</span> 
+                
+               
             </li>);
           }
           else{
-            return(
-             <li style={{padding:"0px" , marginBottom:"6px", border:"none" , color : "red", color : "grey",textAlign: "left" , width: "50%" , wordWrap: "normal" , float: "left"}} className="list-group-item animated fadeIn" key={item.id}>
-              <button style={{width: "100%"}} className="btn btn-primary">   {item.user.name} : {item.msg}</button>
+            return(<li style={{padding:"0px" , marginBottom:"6px" , border:"none" , wordWrap: "normal" , textAlign: "left"  }}
+             className="list-group-item animated fadeIn" 
+             key={item.id}>
+                <span style={{color : "black" }}> {item.user.name} : </span> 
+                <span style={{color : "#337ab7"}}> {item.msg} </span> 
             </li>);
           }
       });
@@ -184,7 +192,12 @@ handleAddMessage() {
                           <button style={{fontWeight: "700", height: "90px", cursor: "text" ,background: "none" , marginLeft: "-10px",color: "#286090" ,  maxWidth: "200px" ,overflow : "hidden"}} disabled={true} type="button" className="btn btn-secondary">{this.props.selectedUser.name}</button>
                         </div>
 
-                        <textArea style={{height: "90px" , fontSize : "" , resize : "none"}} onChange={(evt)=> this.handleMsgTextFieldChange(evt)} type="text" className="form-control" placeholder="type in a msg..."/>
+                        <textArea style={{height: "90px" , fontSize : "" , resize : "none"}} 
+                        value={this.state.msgTextField}
+                        onChange={(evt)=> this.handleMsgTextFieldChange(evt)} 
+                        type="text" 
+                        className="form-control" 
+                        placeholder="type in a msg..."/>
                         <span style={{lineHeight: "90px"}} className="input-group-btn">  
                           <button style={{height: "90px"}} disabled={!this.state.msgTextField || this.state.msgTextField === ''} onClick={(evt)=> this.handleAddMessage(evt)} type="button" className="btn btn-primary">Send</button>
                         </span>
