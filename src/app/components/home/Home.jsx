@@ -12,7 +12,7 @@ export default class Home extends Component {
 
   constructor(props, context) {
     super(props , context);
-    debugger;
+
     this.state = {
       userNameTextField: '',
       userBtnStatus: false
@@ -49,7 +49,7 @@ export default class Home extends Component {
 
   const { socket, users, dispatch} = this.props;     
   let newUser = { name : this.state.userNameTextField , id: this.generateNewGUID()}; 
-  debugger;
+
   dispatch(actions.addUser(newUser));
   dispatch(actions.selectUser(newUser));
   socket.emit('addUser', newUser);
@@ -57,7 +57,7 @@ export default class Home extends Component {
  }
  handleUserSelection(user){
     const { socket, users, dispatch} = this.props;     
-    debugger;
+  
     
     dispatch(actions.selectUser(user));
  }
@@ -77,7 +77,7 @@ export default class Home extends Component {
 
     var listItems = this.props.users.map((item) => {
   
-      
+          debugger;
         if(this.props.selectedUser.id != item.id){
           return (<li style={{padding:"0px" , marginBottom:"6px" , border:"none"}} className="list-group-item animated fadeIn" key={item.id}>
              <button   onClick={()=> this.handleUserSelection(item)}  style={{width: "100%"}} className="btn btn-secondary">  {item.name}</button>

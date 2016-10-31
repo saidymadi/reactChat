@@ -34,7 +34,7 @@ const messages = (state = [] , action) => {
 const users = (state = [chatAdmin] ,action) => {
 	switch(action.type){
 		case ADD_USER :
-		debugger
+		
 			return [...state , action.user];
 		break;
 		case RECEIVED_USER :
@@ -52,12 +52,14 @@ const users = (state = [chatAdmin] ,action) => {
 const selectedUser = (state = chatAdmin , action) => {
 	switch(action.type){
 		case SELECT_USER :
-		debugger;
-			return [...state , action.user];
+			debugger;
+			let user = action.user;
+			return {...state , name : user.name , id : user.id };
 		break;
 		
 
 		default:
+		debugger;
 		return state;
 		break;
 
