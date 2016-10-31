@@ -15,24 +15,24 @@ export default class Home extends Component {
 
     this.state = {
       userNameTextField: '',
-      userBtnStatus: false
+      msgTextField : ''
     };
   }
 
  componentDidMount() {
-
   const { socket, users, dispatch } = this.props;
 
    // socket.emit('reqChatHistory');
     
     socket.on('userAdded', data =>{
-      console("i will add the new user "+data)
       dispatch(actions.addUser(data));
-    //  dispatch(actions.selectUser(user));
     });
 
+        
+    socket.on('msgAdded', data =>{
+      dispatch(actions.addMessage(data));
+    });
    
-
     socket.on('respChatHistory', (chatInfo) =>{
       if(chatInfo){
         //add every user 
@@ -44,12 +44,22 @@ export default class Home extends Component {
      
     });
 
+    
+
  }
 
- handleAddUser() {
-  //do some validation 
-  //make sure no duplicate users sanitize the string from any chars that are not allowed 
+ handleUserTextFieldChange(event) {
 
+  let fieldVal = event.target.value;
+  let enableButton = fieldVal && fieldVal.length > 0 ? true : false  ;
+  this.setState({ userNameTextField: fieldVal
+                 });  
+ }
+
+
+ handleAddUser() {
+  //TODO do some validation 
+  //make sure no duplicate users sanitize the string from any chars that are not allowed 
 
   const { socket, users, dispatch} = this.props;     
   let newUser = { name : this.state.userNameTextField , id: this.generateNewGUID()}; 
@@ -59,36 +69,48 @@ export default class Home extends Component {
   socket.emit('addUser', newUser);
 
   //clear state and field vals
-   this.setState({ userNameTextField: "",
-                    userBtnStatus: false
+   this.setState({ userNameTextField: ""
                  });
      
 
  }
+
+
+
+ handleMsgTextFieldChange(event) {
+  debugger;
+  let fieldVal = event.target.value;
+  this.setState({ msgTextField: fieldVal
+                 });  
+ }
+
  handleUserSelection(user){
     const { socket, users, dispatch} = this.props;     
-  
-    
     dispatch(actions.selectUser(user));
  }
  
+handleAddMessage() {
+  //do some validation 
+  //make sure no duplicate users sanitize the string from any chars that are not allowed 
 
- handleUserTextFieldChange(event) {
 
-  let fieldVal = event.target.value;
-  let enableButton = fieldVal && fieldVal.length > 0 ? true : false  ;
-  this.setState({ userNameTextField: fieldVal,
-                    userBtnStatus: enableButton
+  const { socket, users, dispatch} = this.props;    
+  debugger;
+  let newMsg = { socketId : socket.io.engine.id || '',user : this.props.selectedUser , msg: this.state.msgTextField  ,id: this.generateNewGUID()}; 
+
+  dispatch(actions.addMessage(newMsg));
+  socket.emit('addMsg', newMsg);
+
+  //clear state and field vals
+   this.setState({ msgTextField: ""
                  });
+     
 
-    
  }
 
   render(){
 
     var listItems = this.props.users.map((item) => {
-  
-
         if(this.props.selectedUser.id != item.id){
           return (<li style={{padding:"0px" , marginBottom:"6px" , border:"none"}} className="list-group-item animated fadeIn" key={item.id}>
              <button   onClick={()=> this.handleUserSelection(item)}  style={{width: "100%"}} className="btn btn-secondary">  {item.name}</button>
@@ -100,14 +122,26 @@ export default class Home extends Component {
             <button  onClick={()=> this.handleUserSelection(item)} style={{width: "100%"}} className="btn btn-primary">  {item.name}</button>
           </li>);
         }
-   
     });
 
+   var msgItems = this.props.messages.map((item) => {
+          if(this.props.socket.io.engine.id != item.socketId){
+            return (<li style={{padding:"0px" , marginBottom:"6px" , border:"none" , color : "grey",textAlign: "left" , width: "50%" , wordWrap: "normal"; float: "right"}} className="list-group-item animated fadeIn" key={item.id}>
+               <button style={{width: "100%"}} className="btn btn-secondary">  {item.user.name} : {item.msg}</button>
+            </li>);
+          }
+          else{
+            return(
+             <li style={{padding:"0px" , marginBottom:"6px", border:"none" , color : "red", color : "grey",textAlign: "left" , width: "50%" , wordWrap: "normal"; float: "left"}} className="list-group-item animated fadeIn" key={item.id}>
+              <button style={{width: "100%"}} className="btn btn-primary">   {item.user.name} : {item.msg}</button>
+            </li>);
+          }
+      });
 
     return (
         <div className="container-fluid">
            <div className="row">
-          <div className="col-md-3">
+          <div className="col-md-4">
             <div className="panel panel-primary">
                  <div  className="panel-heading">
                    <h3 className="panel-title">Users Panel</h3>
@@ -117,7 +151,7 @@ export default class Home extends Component {
                     <div className="input-group">
                       <input onChange={(evt)=> this.handleUserTextFieldChange(evt)} value={this.state.userNameTextField} type="text" className="form-control" placeholder="type in a user name"/>
                       <span className="input-group-btn">  
-                        <button disabled={!this.state.userBtnStatus} onClick={(evt)=> this.handleAddUser(evt)} type="button" className="btn btn-primary">Add</button>
+                        <button disabled={!this.state.userNameTextField || this.state.userNameTextField===''} onClick={(evt)=> this.handleAddUser(evt)} type="button" className="btn btn-primary">Add</button>
                       </span>
                     </div>
                     </div>
@@ -134,24 +168,25 @@ export default class Home extends Component {
                  
               </div>
           </div>
-
-          <div className="col-md-9">
+          <div className="col-md-8">
           <div className="panel panel-primary">
                   <div className="panel-heading">
                       <h3 className="panel-title">Chat Stream</h3>
                   </div>
                   <div style={{height: "calc(100vh - 250px)" , overflowY:"auto"}}  className="panel-body">
-                      Panel content
+                       <ul className="list-group">
+                        {msgItems}
+                       </ul>
                   </div>
                    <div style={{height: "110px"}} id="chat-panel-footer" className="panel-footer">
                        <div className="input-group ">
-                        <span style={{lineHeight: "90px"}} className="input-group-btn animated fadeIn">  
-                          <button style={{fontWeight: "700", height: "90px", cursor: "text" ,background: "none" , marginLeft: "-10px",color: "#286090"}} disabled={true} type="button" className="btn btn-secondary">{this.props.selectedUser.name}</button>
-                        </span>
+                        <div style={{lineHeight: "90px" , maxWidth: "200px" ,textOverflow: "ellipsis"}} className="input-group-btn animated fadeIn">  
+                          <button style={{fontWeight: "700", height: "90px", cursor: "text" ,background: "none" , marginLeft: "-10px",color: "#286090" ,  maxWidth: "200px" ,overflow : "hidden"}} disabled={true} type="button" className="btn btn-secondary">{this.props.selectedUser.name}</button>
+                        </div>
 
-                        <textArea style={{height: "90px" , fontSize : ""}} onChange={this.handleUserTextFieldChange.bind(this)} type="text" className="form-control" placeholder="type in a msg..."/>
+                        <textArea style={{height: "90px" , fontSize : "" , resize : "none"}} onChange={(evt)=> this.handleMsgTextFieldChange(evt)} type="text" className="form-control" placeholder="type in a msg..."/>
                         <span style={{lineHeight: "90px"}} className="input-group-btn">  
-                          <button style={{height: "90px"}} disabled={!this.state.userBtnStatus} onClick={this.handleAddUser.bind(this)} type="button" className="btn btn-primary">Send</button>
+                          <button style={{height: "90px"}} disabled={!this.state.msgTextField || this.state.msgTextField === ''} onClick={(evt)=> this.handleAddMessage(evt)} type="button" className="btn btn-primary">Send</button>
                         </span>
                       </div>
 
