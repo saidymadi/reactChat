@@ -53,12 +53,12 @@ io.sockets.on('connection', function(socket) {
     socket.on('addUser', function(data) {
         console.log(data);   
         users.push(data);
-        io.sockets.emit('userAdded', { user: data });
+        io.sockets.emit('userAdded',data);
     });
 
     socket.on('addMsg', function(data) {   
         msgs.push(data);
-        io.sockets.emit('msgAdded', { msg: data });
+        io.sockets.emit('msgAdded', data);
     });
 
 

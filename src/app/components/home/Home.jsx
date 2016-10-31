@@ -23,10 +23,11 @@ export default class Home extends Component {
 
   const { socket, users, dispatch } = this.props;
 
-    socket.emit('reqChatHistory');
+   // socket.emit('reqChatHistory');
     
-    socket.on('userAdded', user =>{
-      dispatch(actions.addUser(user));
+    socket.on('userAdded', data =>{
+      console("i will add the new user "+data)
+      dispatch(actions.addUser(data));
     //  dispatch(actions.selectUser(user));
     });
 

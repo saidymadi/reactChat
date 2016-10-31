@@ -52,7 +52,6 @@ const users = (state = [chatAdmin] ,action) => {
 const selectedUser = (state = chatAdmin , action) => {
 	switch(action.type){
 		case SELECT_USER :
-			debugger;
 			let user = action.user;
 			return {...state , name : user.name , id : user.id };
 		break;
