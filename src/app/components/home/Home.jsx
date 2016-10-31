@@ -111,19 +111,7 @@ export default class Home extends Component {
                        </ul>
                     </div>
                   </div>
-                  <div style={{height: "110px"}} id="user-panel-footer" className="panel-footer">
-                       <div className="input-group">
-                        <span style={{lineHeight: "90px"}} className="input-group-btn">  
-                          <button style={{height: "90px"}} disabled={true} onClick={this.handleAddUser.bind(this)} type="button" className="btn btn-secondary">{this.props.selectedUser.name}</button>
-                        </span>
-
-                        <textArea style={{height: "90px" , fontSize : ""}} onChange={this.handleUserTextFieldChange.bind(this)} type="text" className="form-control" placeholder="type in a msg..."/>
-                        <span style={{lineHeight: "90px"}} className="input-group-btn">  
-                          <button style={{height: "90px"}} disabled={!this.state.userBtnStatus} onClick={this.handleAddUser.bind(this)} type="button" className="btn btn-primary">Send</button>
-                        </span>
-                      </div>
-
-                  </div>
+                 
               </div>
           </div>
 
@@ -132,8 +120,21 @@ export default class Home extends Component {
                   <div className="panel-heading">
                       <h3 className="panel-title">Chat Stream</h3>
                   </div>
-                  <div className="panel-body">
+                  <div style={{height: "calc(100vh - 250px)"}}  className="panel-body">
                       Panel content
+                  </div>
+                   <div style={{height: "110px"}} id="chat-panel-footer" className="panel-footer">
+                       <div className="input-group">
+                        <span style={{lineHeight: "90px"}} className="input-group-btn">  
+                          <button style={{fontWeight: "700", height: "90px", cursor: "text" ,background: "none" , marginLeft: "-10px",color: "#286090"}} disabled={true} type="button" className="btn btn-secondary">{this.props.selectedUser.name}</button>
+                        </span>
+
+                        <textArea style={{height: "90px" , fontSize : ""}} onChange={this.handleUserTextFieldChange.bind(this)} type="text" className="form-control" placeholder="type in a msg..."/>
+                        <span style={{lineHeight: "90px"}} className="input-group-btn">  
+                          <button style={{height: "90px"}} disabled={!this.state.userBtnStatus} onClick={this.handleAddUser.bind(this)} type="button" className="btn btn-primary">Send</button>
+                        </span>
+                      </div>
+
                   </div>
               </div>
             </div>
