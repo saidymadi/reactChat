@@ -15,10 +15,10 @@
 Clone Repo
 
 ````
-git clone https://github.com/DimitriMikadze/express-react-redux-starter.git
+git clone https://github.com/saidymadi/reactChat.git
 ````
 
-npm install dependencies
+install the dependencies
 
 ````
 cd express-react-redux-starter 
@@ -30,20 +30,6 @@ npm install
 
 ````
 npm run dev
-````
-
-### Testing
-
-Run test once
-
-````
-npm run test
-````
-
-Test watch
-
-````
-npm run test:watch
 ````
 
 ### Linting
@@ -68,13 +54,10 @@ Start production server
 npm run start
 ````
 
-Note: I'm using pm2 for production server, you should install it on server via 'npm install pm2 -g'.
-if you don't want to use pm2, just change pm2 with node in package.json file in scripts section.
-
 ### Contributing
 
 contributions are welcome!
 
 ### License
 
-MIT
+NOT read for production code
