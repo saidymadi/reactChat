@@ -21,12 +21,24 @@ export default class Home extends Component {
  componentDidMount() {
 
   const { socket, users, dispatch } = this.props;
-  socket.on('userAdded', user =>{
+
+    socket.emit('reqChatHistory');
+    
+    socket.on('userAdded', user =>{
       dispatch(actions.addUser(user));
     });
-    socket.on('loadChatStream', data =>{
-      console.log("helllllo" + data)
-      dispatch(actions.addUser(user));
+
+   
+
+    socket.on('respChatHistory', (chatInfo) =>{
+      if(chatInfo){
+        //add every user 
+        console.log("Saeed" + chatInfo);
+        chatInfo.users.filter((user)=> {
+          dispatch(actions.addUser(user));
+        });
+      }
+     
     });
 
  }
@@ -35,8 +47,7 @@ export default class Home extends Component {
 
   const { socket, users, dispatch} = this.props;     
   let newUser ={name : this.state.userNameTextField , id: this.generateNewGUID()}; 
- 
-  debugger;
+
   dispatch(actions.addUser(newUser));
  // dispatch(actions.selectUser(newUser));
   socket.emit('addUser', newUser);
@@ -54,6 +65,17 @@ export default class Home extends Component {
  }
 
   render(){
+    debugger;
+    var listItems = this.props.users.map((item) => {
+      debugger;
+      return (
+        <div key={item.id}>
+          {item.name}
+        </div>
+      );
+    });
+
+
     return (
         <div className="container-fluid">
            <div className="row">
@@ -73,6 +95,9 @@ export default class Home extends Component {
                     
                       </div>
                       </div>
+                    </div>
+                    <div>
+                      {listItems}
                     </div>
                   </div>
               </div>

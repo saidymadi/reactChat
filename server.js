@@ -46,8 +46,8 @@ io.sockets.on('connection', function(socket) {
         console.log("disconnected one user . remaining connections  : " + connections.length);
     });
 
-    socket.on('loadChatStream', function(socket) { 
-        socket.broadcast.emit('loadChatStream',  {msgs : msgs, users : users});
+    socket.on('reqChatHistory', ()=> { 
+        socket.broadcast.emit('respChatHistory',  {msgs : msgs, users : users});
     });
 
     socket.on('addUser', function(data) {
