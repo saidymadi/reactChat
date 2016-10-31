@@ -11,7 +11,7 @@ export function addMessage(message) {
 
 export function recieveMessage(message) {
   return {
-    type: types.RECIEVE_MESSAGE,
+    type: types.RECIEVED_MESSAGE,
     message
   };
 }
@@ -28,15 +28,15 @@ export function addUser(user) {
 
 export function loadUser(user) {
   return {
-    type: types.RECEIVE_USER,
+    type: types.RECEIVED_USER,
     user
   };
 }
 
 
-export function selectUSer(user) {
+export function selectUser(userId) {
   return {
     type: types.SELECT_USER,
-    user
+    userId
   };
 }
