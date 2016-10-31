@@ -22,8 +22,22 @@ export default class Home extends Component {
  componentDidMount() {
   const { socket, users, dispatch } = this.props;
 
-   // socket.emit('reqChatHistory');
-    
+    socket.emit('reqChatHistory');
+
+    socket.on('responseChatHistory', (chatHistory) =>{
+      if(chatHistory){
+        //add every user 
+        console.log("load cached chat history " + chatHistory);
+        chatInfo.chatHistory.users.filter((user)=> {
+          dispatch(actions.addUser(user));
+        });
+        chatInfo.chatHistory.msgs.filter((msg)=> {
+           socket.emit('addMsg', msg);
+        });
+      }
+     
+    });
+
     socket.on('userAdded', data =>{
       dispatch(actions.addUser(data));
     });
@@ -33,19 +47,6 @@ export default class Home extends Component {
       dispatch(actions.addMessage(data));
     });
    
-    socket.on('respChatHistory', (chatInfo) =>{
-      if(chatInfo){
-        //add every user 
-        console.log("Saeed" + chatInfo);
-        chatInfo.users.filter((user)=> {
-          dispatch(actions.addUser(user));
-        });
-      }
-     
-    });
-
-    
-
  }
 
  handleUserTextFieldChange(event) {

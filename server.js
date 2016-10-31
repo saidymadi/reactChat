@@ -38,7 +38,6 @@ var io = require('socket.io').listen(server);
 
 io.sockets.on('connection', function(socket) {
     connections.push(socket);
-
    console.log("connected one user . connections count : " + connections.length);
     
     socket.on('disconnect', function(socket) {
@@ -47,11 +46,11 @@ io.sockets.on('connection', function(socket) {
     });
 
     socket.on('reqChatHistory', ()=> { 
-        socket.broadcast.emit('respChatHistory',  {msgs : msgs, users : users});
+         console.log("someone requested the history" + msgs.length);   
+        socket.broadcast.emit('responseChatHistory',  {msgs : msgs, users : users});
     });
 
     socket.on('addUser', function(data) {
-        console.log(data);   
         users.push(data);
         io.sockets.emit('userAdded',data);
     });
