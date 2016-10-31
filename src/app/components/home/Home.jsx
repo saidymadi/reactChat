@@ -126,13 +126,13 @@ handleAddMessage() {
 
    var msgItems = this.props.messages.map((item) => {
           if(this.props.socket.io.engine.id != item.socketId){
-            return (<li style={{padding:"0px" , marginBottom:"6px" , border:"none" , color : "grey",textAlign: "left" , width: "50%" , wordWrap: "normal"; float: "right"}} className="list-group-item animated fadeIn" key={item.id}>
+            return (<li style={{padding:"0px" , marginBottom:"6px" , border:"none" , color : "grey",textAlign: "left" , width: "50%" , wordWrap: "normal" , float: "right"}} className="list-group-item animated fadeIn" key={item.id}>
                <button style={{width: "100%"}} className="btn btn-secondary">  {item.user.name} : {item.msg}</button>
             </li>);
           }
           else{
             return(
-             <li style={{padding:"0px" , marginBottom:"6px", border:"none" , color : "red", color : "grey",textAlign: "left" , width: "50%" , wordWrap: "normal"; float: "left"}} className="list-group-item animated fadeIn" key={item.id}>
+             <li style={{padding:"0px" , marginBottom:"6px", border:"none" , color : "red", color : "grey",textAlign: "left" , width: "50%" , wordWrap: "normal" , float: "left"}} className="list-group-item animated fadeIn" key={item.id}>
               <button style={{width: "100%"}} className="btn btn-primary">   {item.user.name} : {item.msg}</button>
             </li>);
           }
