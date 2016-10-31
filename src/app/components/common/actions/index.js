@@ -34,9 +34,9 @@ export function loadUser(user) {
 }
 
 
-export function selectUser(userId) {
+export function selectUser(user) {
   return {
     type: types.SELECT_USER,
-    userId
+    user
   };
 }

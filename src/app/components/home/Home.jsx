@@ -6,12 +6,13 @@ export default class Home extends Component {
   static propTypes = {
     messages: PropTypes.array.isRequired,
     users: PropTypes.array.isRequired,
-    selectedUserId: PropTypes.string.isRequired,
+    selectedUser: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired
   };
 
   constructor(props, context) {
     super(props , context);
+    debugger;
     this.state = {
       userNameTextField: '',
       userBtnStatus: false
@@ -26,6 +27,7 @@ export default class Home extends Component {
     
     socket.on('userAdded', user =>{
       dispatch(actions.addUser(user));
+    //  dispatch(actions.selectUser(user));
     });
 
    
@@ -65,14 +67,22 @@ export default class Home extends Component {
  }
 
   render(){
-    debugger;
+
     var listItems = this.props.users.map((item) => {
-      debugger;
-      return (
-        <div key={item.id}>
-          {item.name}
-        </div>
-      );
+  
+          debugger;
+        if(this.props.selectedUser.id != item.id){
+          return (<li style={{padding:"0px" , marginBottom:"6px" , border:"none"}} className="list-group-item" key={item.id}>
+             <button style={{width: "100%"}} className="btn btn-secondary">  {item.name}</button>
+          </li>);
+        }
+        else{
+          return(
+           <li style={{padding:"0px" , marginBottom:"6px", border:"none"}} className="list-group-item" key={item.id}>
+            <button style={{width: "100%"}} className="btn btn-primary">  {item.name}</button>
+          </li>);
+        }
+   
     });
 
 
@@ -84,21 +94,35 @@ export default class Home extends Component {
                  <div className="panel-heading">
                    <h3 className="panel-title">Users Panel</h3>
                   </div>
-                 <div className="panel-body">
+                 <div style={{height: "calc(100vh - 250px)"}} className="panel-body">
                     <div className="row">
-                      <div className="col-offset-3 col-lg-6">
+                      <div className=" col-lg-12">
                       <div className="input-group">
                         <input onChange={this.handleUserTextFieldChange.bind(this)} type="text" className="form-control" placeholder="type in a user name"/>
                         <span className="input-group-btn">  
                           <button disabled={!this.state.userBtnStatus} onClick={this.handleAddUser.bind(this)} type="button" className="btn btn-primary">Add</button>
                         </span>
-                    
                       </div>
                       </div>
                     </div>
-                    <div>
-                      {listItems}
+                    <div style={{marginTop:"10px"}} className="col-lt-7">
+                       <ul className="list-group">
+                        {listItems}
+                       </ul>
                     </div>
+                  </div>
+                  <div style={{height: "110px"}} id="user-panel-footer" className="panel-footer">
+                       <div className="input-group">
+                        <span style={{lineHeight: "90px"}} className="input-group-btn">  
+                          <button style={{height: "90px"}} disabled={true} onClick={this.handleAddUser.bind(this)} type="button" className="btn btn-secondary">{this.props.selectedUser.name}</button>
+                        </span>
+
+                        <textArea style={{height: "90px" , fontSize : ""}} onChange={this.handleUserTextFieldChange.bind(this)} type="text" className="form-control" placeholder="type in a msg..."/>
+                        <span style={{lineHeight: "90px"}} className="input-group-btn">  
+                          <button style={{height: "90px"}} disabled={!this.state.userBtnStatus} onClick={this.handleAddUser.bind(this)} type="button" className="btn btn-primary">Send</button>
+                        </span>
+                      </div>
+
                   </div>
               </div>
           </div>

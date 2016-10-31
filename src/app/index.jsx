@@ -13,6 +13,8 @@ import { ADD_MESSAGE , RECEIVED_MESSAGE , ADD_USER , RECEIVED_USER , SELECT_USER
 
 ///////////Reducers /////////////////////
 //ideally this would have lived in its own dir
+const chatAdmin = {name : 'Chat Admin', id:'LixarAdmin'};
+
 const messages = (state = [] , action) => {
 	switch(action.type){
 		case ADD_MESSAGE :
@@ -29,7 +31,7 @@ const messages = (state = [] , action) => {
 	}
 
 };
-const users = (state = [{name : 'Chat Admin', id:'LixarAdmin'}] ,action) => {
+const users = (state = [chatAdmin] ,action) => {
 	switch(action.type){
 		case ADD_USER :
 			return [...state , action.user];
@@ -46,10 +48,10 @@ const users = (state = [{name : 'Chat Admin', id:'LixarAdmin'}] ,action) => {
 	}
 
 };
-const selectedUserId = (state = 'LixarAdmin' , action) => {
+const selectedUser = (state = chatAdmin , action) => {
 	switch(action.type){
 		case SELECT_USER :
-			return [...state , action.userId];
+			return [...state , action.user];
 		break;
 		
 
@@ -62,7 +64,7 @@ const selectedUserId = (state = 'LixarAdmin' , action) => {
 };
 
 
-const reducers = combineReducers({messages , users , selectedUserId });
+const reducers = combineReducers({messages , users , selectedUser });
 const logger = createLogger();
 /////////////////////////////////////////////
 

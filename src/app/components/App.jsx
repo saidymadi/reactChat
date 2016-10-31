@@ -12,8 +12,7 @@ class App extends Component {
 
 	constructor(props) {
 		super(props);
-		
-
+		debugger;;
 	}
 
 	render(){
@@ -32,14 +31,14 @@ class App extends Component {
 App.propTypes = {
   messages: PropTypes.array.isRequired,
   users: PropTypes.array.isRequired,
-  selectedUserId: PropTypes.string.isRequired,
+  selectedUser: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired
 }
 
 function mapStateToProps (state){
   return {  messages: state.messages,
   			users : state.users,
- 	 		selectedUserId: state.selectedUserId
+ 	 		selectedUser: state.selectedUser
 		};
 }
 
