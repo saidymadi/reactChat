@@ -11,9 +11,15 @@ import Home from './components/home/Home';
 import reducers from './reducers';
 
 import './components/bundle.scss';
-import io from 'socket.io-client';
-const socket = io.connect();
+/*
 
+const initial_State = {
+	messages : [],
+	users : [],
+	selectedUserId : null
+};
+
+*/
 const createStoreWithMiddleware = applyMiddleware()(createStore);
 const store = createStoreWithMiddleware(reducers);
 const rootElement = document.getElementById('app-container');
@@ -22,7 +28,7 @@ const rootElement = document.getElementById('app-container');
 ReactDOM.render(
   <Provider store={store}>
     <Router	history={browserHistory}>
-      <Route path="/" component={App}>
+      <Route path="/" component={App} >
     
        
       </Route>

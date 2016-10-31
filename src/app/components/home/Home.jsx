@@ -3,6 +3,15 @@ import React, { PropTypes , Component} from 'react';
 
 export default class Home extends Component {
 
+  static propTypes = {
+    messages: PropTypes.array.isRequired,
+    user: PropTypes.object.isRequired,
+    socket: PropTypes.object.isRequired
+  };
+  constructor(props) {
+    super(props);
+    
+  }
   render(){
     return (
         <div className="container-fluid">
