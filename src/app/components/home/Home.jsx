@@ -72,13 +72,13 @@ export default class Home extends Component {
   
           debugger;
         if(this.props.selectedUser.id != item.id){
-          return (<li style={{padding:"0px" , marginBottom:"6px" , border:"none"}} className="list-group-item" key={item.id}>
+          return (<li style={{padding:"0px" , marginBottom:"6px" , border:"none"}} className="list-group-item animated fadeIn" key={item.id}>
              <button style={{width: "100%"}} className="btn btn-secondary">  {item.name}</button>
           </li>);
         }
         else{
           return(
-           <li style={{padding:"0px" , marginBottom:"6px", border:"none"}} className="list-group-item" key={item.id}>
+           <li style={{padding:"0px" , marginBottom:"6px", border:"none"}} className="list-group-item animated fadeIn" key={item.id}>
             <button style={{width: "100%"}} className="btn btn-primary">  {item.name}</button>
           </li>);
         }
@@ -124,7 +124,7 @@ export default class Home extends Component {
                       Panel content
                   </div>
                    <div style={{height: "110px"}} id="chat-panel-footer" className="panel-footer">
-                       <div className="input-group">
+                       <div className="input-group animated bounceInLeft">
                         <span style={{lineHeight: "90px"}} className="input-group-btn">  
                           <button style={{fontWeight: "700", height: "90px", cursor: "text" ,background: "none" , marginLeft: "-10px",color: "#286090"}} disabled={true} type="button" className="btn btn-secondary">{this.props.selectedUser.name}</button>
                         </span>
