@@ -48,13 +48,20 @@ export default class Home extends Component {
  handleAddUser() {
 
   const { socket, users, dispatch} = this.props;     
-  let newUser ={name : this.state.userNameTextField , id: this.generateNewGUID()}; 
-
+  let newUser = { name : this.state.userNameTextField , id: this.generateNewGUID()}; 
+  debugger;
   dispatch(actions.addUser(newUser));
- // dispatch(actions.selectUser(newUser));
+  dispatch(actions.selectUser(newUser));
   socket.emit('addUser', newUser);
 
  }
+ handleUserSelection(user){
+    const { socket, users, dispatch} = this.props;     
+    debugger;
+    
+    dispatch(actions.selectUser(user));
+ }
+ 
 
  handleUserTextFieldChange(event) {
 
@@ -70,16 +77,16 @@ export default class Home extends Component {
 
     var listItems = this.props.users.map((item) => {
   
-          debugger;
+      
         if(this.props.selectedUser.id != item.id){
           return (<li style={{padding:"0px" , marginBottom:"6px" , border:"none"}} className="list-group-item animated fadeIn" key={item.id}>
-             <button style={{width: "100%"}} className="btn btn-secondary">  {item.name}</button>
+             <button   onClick={()=> this.handleUserSelection(item)}  style={{width: "100%"}} className="btn btn-secondary">  {item.name}</button>
           </li>);
         }
         else{
           return(
            <li style={{padding:"0px" , marginBottom:"6px", border:"none"}} className="list-group-item animated fadeIn" key={item.id}>
-            <button style={{width: "100%"}} className="btn btn-primary">  {item.name}</button>
+            <button  onClick={()=> this.handleUserSelection(item)} style={{width: "100%"}} className="btn btn-primary">  {item.name}</button>
           </li>);
         }
    
@@ -98,14 +105,15 @@ export default class Home extends Component {
                     <div className="row">
                       <div className=" col-lg-12">
                       <div className="input-group">
-                        <input onChange={this.handleUserTextFieldChange.bind(this)} type="text" className="form-control" placeholder="type in a user name"/>
+                        <input onChange={(evt)=> this.handleUserTextFieldChange(evt)} type="text" className="form-control" placeholder="type in a user name"/>
                         <span className="input-group-btn">  
-                          <button disabled={!this.state.userBtnStatus} onClick={this.handleAddUser.bind(this)} type="button" className="btn btn-primary">Add</button>
+                          <button disabled={!this.state.userBtnStatus} onClick={(evt)=> this.handleAddUser(evt)} type="button" className="btn btn-primary">Add</button>
                         </span>
                       </div>
                       </div>
                     </div>
-                    <div style={{marginTop:"10px"}} className="col-lt-7">
+                    <div style={{color:"grey" , fontWeight:"700", marginTop:"15px", borderBottom:"1px solid lightgrey "}} ><h3 className="panel-title">Select a user and chat on their behalf</h3></div>
+                    <div style={{marginTop:"10px"}}>
                        <ul className="list-group">
                         {listItems}
                        </ul>
@@ -124,8 +132,8 @@ export default class Home extends Component {
                       Panel content
                   </div>
                    <div style={{height: "110px"}} id="chat-panel-footer" className="panel-footer">
-                       <div className="input-group animated bounceInLeft">
-                        <span style={{lineHeight: "90px"}} className="input-group-btn">  
+                       <div className="input-group ">
+                        <span style={{lineHeight: "90px"}} className="input-group-btn animated fadeIn">  
                           <button style={{fontWeight: "700", height: "90px", cursor: "text" ,background: "none" , marginLeft: "-10px",color: "#286090"}} disabled={true} type="button" className="btn btn-secondary">{this.props.selectedUser.name}</button>
                         </span>
 
