@@ -4,6 +4,7 @@ import { ADD_MESSAGE , RECEIVED_MESSAGE , ADD_USER , RECEIVED_USER , SELECT_USER
 
 
 // I also could have combined them all in one but I wanted to showcase the combine producers func
+//default user (the chat will have at least 1 user)
 const chatAdmin = {
 	name : 'Lixar Chat Admin',
 	id:'LixarAdmin-Unique-ID'};
