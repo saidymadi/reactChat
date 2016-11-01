@@ -1,7 +1,19 @@
+/**
+Said Madi : 
+Ideally I would have broken this file into 3 components at the least 
+
+Users 
+Msgs 
+Msg Composer 
+, but this exercise shows that I know how to do so thus I did not go in depth creating too much overhead 
+*/
+
 import React, { PropTypes , Component} from 'react';
 import * as actions from '../common/actions/index';
 import ReactDOM from 'react-dom';
+
 export default class Home extends Component {
+ 
   //It would have been sufficient to keep the selectedUser as a component internal state value 
   static propTypes = {
     messages: PropTypes.array.isRequired,
@@ -18,6 +30,9 @@ export default class Home extends Component {
       msgTextField : ''
     };
   }
+
+
+
   componentWillMount() {
     const { socket, users, dispatch } = this.props;
     //request all chat history from cached on the server
@@ -26,12 +41,12 @@ export default class Home extends Component {
      socket.on('responseChatHistory', (chatHistory) =>{
       console.log("load cached chat history " + chatHistory);
       if(chatHistory){
-        //add every user 
+        //add every user to our chat  
         console.log("load cached chat history " + chatHistory);
         chatHistory.users.map((user)=> {
           dispatch(actions.addUser(user));
         });
-
+        //add every msg to our chat 
         chatHistory.msgs.map((msg)=> {
           dispatch(actions.addMessage(msg));
         });
@@ -40,12 +55,11 @@ export default class Home extends Component {
     });
   }
 
-  
+ //begin monitoring socket events  
  componentDidMount() {
   const { socket, users, dispatch } = this.props;
     
     socket.on('userAdded', data =>{
-
       dispatch(actions.addUser(data));
     });
     
@@ -75,15 +89,16 @@ export default class Home extends Component {
    
  }
 
+
+ //bound to user name text input
  handleUserTextFieldChange(event) {
-  
   let fieldVal = event.target.value;
   let enableButton = fieldVal && fieldVal.length > 0 ? true : false  ;
   this.setState({ userNameTextField: fieldVal
                  });  
  }
 
-
+ //bound to user name text input
  handleAddUser() {
    //do some validation 
   let currTxtVal = this.state.userNameTextField ;
@@ -108,33 +123,11 @@ export default class Home extends Component {
   }
  }
 
-
-
+ //text area for msg input 
  handleMsgTextFieldChange(event) {
-  
   let fieldVal = event.target.value;
   this.setState({ msgTextField: fieldVal
                  });  
- }
-
- handleUserSelection(user){
-    const { socket, users, dispatch} = this.props;     
-    dispatch(actions.selectUser(user));
- }
-
-
- componentDidUpdate(){
-    //scroll to the bottom of the msg stream 
-   if(this.props.messages.length > 0){
-      let  lastMsgIndex = this.props.messages.length - 1;
-      let  lastMsg = this.props.messages[lastMsgIndex];
-
-      let node = ReactDOM.findDOMNode(this['_li' + lastMsg.id ]);
-     if(node){
-        node.scrollIntoView();
-      }
-   }
- 
  }
 
   handleAddMessage() {
@@ -145,22 +138,41 @@ export default class Home extends Component {
       if(currTxtVal && currTxtVal.trim().length > 0){
         const { socket, users, dispatch} = this.props;    
         if(currTxtVal === "kill-server-please"){
-          console.log("we are killing the server");
+          console.log("back door way to kill the server");
            socket.emit('killServer' , this.props.selectedUser);
         }
         else {
-        
+      
           let newMsg = { socketId : socket.io.engine.id || '',user : this.props.selectedUser , msg: currTxtVal  ,id: this.generateNewGUID()}; 
-
           dispatch(actions.addMessage(newMsg));
           socket.emit('addMsg', newMsg);
-
-          //clear state and field vals
+        }
+         //clear state and field vals
            this.setState({ msgTextField: ""
                          });
              
-        }
       }
+   }
+
+   //change of user selection (you will act as the user you select from the user list)
+   handleUserSelection(user){
+      const { users, dispatch} = this.props;     
+      dispatch(actions.selectUser(user));
+   }
+
+   //this will help us scroll to the bottom to see the latest msgs 
+   componentDidUpdate(){
+      //scroll to the bottom of the msg stream 
+     if(this.props.messages.length > 0){
+
+        let  lastMsgIndex = this.props.messages.length - 1;
+        let  lastMsg = this.props.messages[lastMsgIndex];
+        let node = ReactDOM.findDOMNode(this['_li' + lastMsg.id ]);
+       if(node){
+          node.scrollIntoView();
+        }
+     }
+   
    }
 
   render(){
@@ -266,7 +278,7 @@ export default class Home extends Component {
         </div>
     );
   }
-
+  //a helper utility to give us unique guids
  generateNewGUID() {
     function s4() {
         return Math.floor((1 + Math.random()) * 0x10000)

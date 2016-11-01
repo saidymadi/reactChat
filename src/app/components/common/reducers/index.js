@@ -3,10 +3,7 @@ import {reducer as formReducer} from 'redux-form'
 import { ADD_MESSAGE , RECEIVED_MESSAGE , ADD_USER , RECEIVED_USER , SELECT_USER } from '../constants/ActionTypes';
 
 
-
-///////////Reducers /////////////////////
-//ideally this would have lived in its own file
-// I also could have combined them all in one but I wan"ted to showcase the combine producers func
+// I also could have combined them all in one but I wanted to showcase the combine producers func
 const chatAdmin = {
 	name : 'Lixar Chat Admin',
 	id:'LixarAdmin-Unique-ID'};
@@ -57,7 +54,6 @@ const selectedUser = (state = chatAdmin , action) => {
 			return {...state , name : user.name , id : user.id };
 		break;
 		
-
 		default:
 		return state;
 		break;
@@ -65,7 +61,6 @@ const selectedUser = (state = chatAdmin , action) => {
 	}
 
 };
-/////////////////////////
 
 
 const rootReducer = combineReducers({
