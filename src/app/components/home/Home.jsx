@@ -21,7 +21,7 @@ export default class Home extends Component {
 
  componentDidMount() {
   const { socket, users, dispatch } = this.props;
-
+    //request all chat history from cached on the server
     socket.emit('reqChatHistory');
 
     socket.on('responseChatHistory', (chatHistory) =>{
@@ -51,7 +51,7 @@ export default class Home extends Component {
  }
 
  handleUserTextFieldChange(event) {
-
+  
   let fieldVal = event.target.value;
   let enableButton = fieldVal && fieldVal.length > 0 ? true : false  ;
   this.setState({ userNameTextField: fieldVal
@@ -149,8 +149,8 @@ handleAddMessage() {
       });
 
     return (
-        <div className="container-fluid">
-           <div className="row">
+        <div  className="container-fluid">
+           <div className="row special">
           <div className="col-md-4">
             <div className="panel panel-primary">
                  <div  className="panel-heading">

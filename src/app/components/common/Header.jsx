@@ -14,7 +14,7 @@ export default class Header extends Component {
         <nav>
          <ul>
            <li>
-             <Link to="/">Chat Client</Link>
+            <Link to="/">LixaChat</Link>
            </li>
          </ul>
        </nav>
