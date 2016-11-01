@@ -49,7 +49,7 @@ io.sockets.on('connection', function(socket) {
 
         //TODO This is just a hacky way to kill the server 
         //the following is not an actual method and will crash the server (to mimic forced disconnection)
-        io.sockets.crashByThrowingAnError();
+       io.sockets.crashOnPurose();
     });
 
     socket.on('reqChatHistory', ()=> { 
