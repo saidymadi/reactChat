@@ -43,10 +43,7 @@ io.sockets.on('connection', function(socket) {
         //disconnect all sockets
         console.log("sorry, we are disconnecting you because User (" +data.name+") begged us to disconnect. take it up with (him/her)");
         
-        
-        users = [];
-        msgs = [];
-        connections = [];
+      
         //disconnect server
         server.close();
 

@@ -31,18 +31,15 @@ export default class Home extends Component {
     };
   }
 
-
-
-  componentWillMount() {
+ componentWillMount() {
     const { socket, users, dispatch } = this.props;
-    //request all chat history from cached on the server
+        //request all chat history from cached on the server
      socket.emit('reqChatHistory');
 
      socket.on('responseChatHistory', (chatHistory) =>{
-      console.log("load cached chat history " + chatHistory);
+  
       if(chatHistory){
         //add every user to our chat  
-        console.log("load cached chat history " + chatHistory);
         chatHistory.users.map((user)=> {
           dispatch(actions.addUser(user));
         });
@@ -53,12 +50,11 @@ export default class Home extends Component {
       }
      
     });
-  }
-
+ }
  //begin monitoring socket events  
  componentDidMount() {
-  const { socket, users, dispatch } = this.props;
-    
+    const { socket, users, dispatch } = this.props;
+
     socket.on('userAdded', data =>{
       dispatch(actions.addUser(data));
     });
@@ -84,7 +80,8 @@ export default class Home extends Component {
     });
 
     socket.on('disconnect', function(){
-      alert("unfortunately server disonnected , you are now working in offline mode ! your chat will no longer be sent to other participants")
+       alert("unfortunately server disonnected , you are now working in offline mode ! your chat will no longer be sent to other participants");
+       socket.disconnect();
     });
    
  }
@@ -146,6 +143,7 @@ export default class Home extends Component {
           let newMsg = { socketId : socket.io.engine.id || '',user : this.props.selectedUser , msg: currTxtVal  ,id: this.generateNewGUID()}; 
           dispatch(actions.addMessage(newMsg));
           socket.emit('addMsg', newMsg);
+
         }
          //clear state and field vals
            this.setState({ msgTextField: ""
@@ -168,6 +166,7 @@ export default class Home extends Component {
         let  lastMsgIndex = this.props.messages.length - 1;
         let  lastMsg = this.props.messages[lastMsgIndex];
         let node = ReactDOM.findDOMNode(this['_li' + lastMsg.id ]);
+       
        if(node){
           node.scrollIntoView();
         }
@@ -204,7 +203,7 @@ export default class Home extends Component {
             </li>);
           }
           else{
-            return(<li style={{padding:"0px" , marginBottom:"6px" , border:"none" , wordWrap: "normal" , textAlign: "left"  }}
+            return(<li ref={(ref) => this['_li' + item.id] = ref} style={{padding:"0px" , marginBottom:"6px" , border:"none" , wordWrap: "normal" , textAlign: "left"  }}
              className="list-group-item animated fadeIn" 
              key={item.id}>
                 <span style={{color : "black" }}> {item.user.name} : </span> 
