@@ -12,7 +12,12 @@ then npm start
 in your browser navigate to localhost:3000
 
 
+in the chat text area I allowed a backdoor shortcut 
+you can type in 
 
+kill-server-please 
+
+which will take care of disconnecting all sockets and shutting the express server down
 
 ---------
 you can launch multiple browser . been tested on edge IE11 latest Chrome and Firefox browsers

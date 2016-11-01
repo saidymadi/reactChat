@@ -41,10 +41,7 @@ io.sockets.on('connection', function(socket) {
 
     socket.on('killServer', function(data) {
         //disconnect all sockets
-        console.log("sorry, we are disconnecting you because User " +data.name+" begged us to disconnect. take it up with him");
-        io.sockets.map((socket)=>{
-            socket.disconnect(true);
-        });
+        console.log("sorry, we are disconnecting you because User " +data.name+" begged us to disconnect. take it up with (him/her)");
         console.log("closing server");
         users = [];
         msgs = [];
