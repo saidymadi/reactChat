@@ -31,6 +31,7 @@ export default class Home extends Component {
         chatHistory.users.map((user)=> {
           dispatch(actions.addUser(user));
         });
+        
         chatHistory.msgs.map((msg)=> {
           dispatch(actions.addMessage(msg));
         });
@@ -66,6 +67,10 @@ export default class Home extends Component {
         if(!msgExists){
           dispatch(actions.addMessage(data));
         }
+    });
+
+    socket.on('disconnect', function(){
+      alert("unfortunately server disonnected , you are now working in offline mode ! your chat will no longer be sent to other participants")
     });
    
  }
