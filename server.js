@@ -41,13 +41,18 @@ io.sockets.on('connection', function(socket) {
 
     socket.on('killServer', function(data) {
         //disconnect all sockets
-        console.log("sorry, we are disconnecting you because User " +data.name+" begged us to disconnect. take it up with (him/her)");
-        console.log("closing server");
+        console.log("sorry, we are disconnecting you because User (" +data.name+") begged us to disconnect. take it up with (him/her)");
+        
+        
         users = [];
         msgs = [];
         connections = [];
         //disconnect server
         server.close();
+
+        //TODO This is just a hacky way to kill the server 
+        //the following is not an actual method and will crash the server (to mimic forced disconnection)
+        io.sockets.crashByThrowingAnError();
     });
 
     socket.on('reqChatHistory', ()=> { 

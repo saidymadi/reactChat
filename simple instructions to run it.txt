@@ -1,13 +1,12 @@
+assuming you have node installed 
+
 in this same directory 
 
 npm install 
 
 npm run build
 
-when prompted in the command line window click "y" to force delete
-
 then npm start 
-
 
 in your browser navigate to localhost:3000
 
@@ -17,7 +16,15 @@ you can type in
 
 kill-server-please 
 
-which will take care of disconnecting all sockets and shutting the express server down
+which will cause an exception and take down the express server down
+
+you will be notified at the client side with an alert
+
+but then you can still continue adding users/typing  as long as you do not refresh 
+(I did not do manifest/local host html5 offline mode)
+
+and when you do npm start again all the chat items will be quered and inserted in place :) 
+
 
 ---------
 you can launch multiple browser . been tested on edge IE11 latest Chrome and Firefox browsers
