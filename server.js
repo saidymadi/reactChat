@@ -46,7 +46,7 @@ io.sockets.on('connection', function(socket) {
 
     socket.on('addUser', function(data) {
         let userExists =  users.some((user)=>{
-                  return user.name == currTxtVal;
+                  return user.name == data.name;
          });
         if(userExists){
             io.sockets.emit('errorOnAddingUser',data);
