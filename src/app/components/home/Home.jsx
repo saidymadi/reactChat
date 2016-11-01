@@ -73,8 +73,6 @@ export default class Home extends Component {
   //clear state and field vals
    this.setState({ userNameTextField: ""
                  });
-     
-
  }
 
 
