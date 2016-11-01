@@ -5,15 +5,17 @@ import { ADD_MESSAGE , RECEIVED_MESSAGE , ADD_USER , RECEIVED_USER , SELECT_USER
 
 
 ///////////Reducers /////////////////////
-//ideally this would have lived in its own dir
+//ideally this would have lived in its own file
 // I also could have combined them all in one but I wan"ted to showcase the combine producers func
 const chatAdmin = {
 	name : 'Lixar Chat Admin',
 	id:'LixarAdmin-Unique-ID'};
+
 /*const initialMsg = {user: chatAdmin ,
   msg : "welcome to the Lixar Chat Hope that you enjoy!",
   id : "welcome-msg-id" ,
   socketId : ""};*/
+
 const messages = (state = [] , action) => {
 	switch(action.type){
 		case ADD_MESSAGE :
@@ -63,6 +65,7 @@ const selectedUser = (state = chatAdmin , action) => {
 	}
 
 };
+/////////////////////////
 
 
 const rootReducer = combineReducers({
