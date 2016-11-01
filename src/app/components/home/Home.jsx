@@ -2,7 +2,7 @@ import React, { PropTypes , Component} from 'react';
 import * as actions from '../common/actions/index';
 
 export default class Home extends Component {
-
+  //It would have been sufficient to keep the selectedUser as a component internal state value 
   static propTypes = {
     messages: PropTypes.array.isRequired,
     users: PropTypes.array.isRequired,
@@ -18,13 +18,12 @@ export default class Home extends Component {
       msgTextField : ''
     };
   }
-
- componentDidMount() {
-  const { socket, users, dispatch } = this.props;
+  componentWillMount() {
+    const { socket, users, dispatch } = this.props;
     //request all chat history from cached on the server
-    socket.emit('reqChatHistory');
+     socket.emit('reqChatHistory');
 
-    socket.on('responseChatHistory', (chatHistory) =>{
+     socket.on('responseChatHistory', (chatHistory) =>{
       console.log("load cached chat history " + chatHistory);
       if(chatHistory){
         //add every user 
@@ -38,14 +37,35 @@ export default class Home extends Component {
       }
      
     });
+  }
 
+  
+ componentDidMount() {
+  const { socket, users, dispatch } = this.props;
+    
     socket.on('userAdded', data =>{
+
       dispatch(actions.addUser(data));
+    });
+    
+    socket.on('errorOnAddingUser', data =>{
+       alert("Sorry . user name ( " +currTxtVal + " ) already exists . Please enter a unique name");
+       //clear state and field vals
+       this.setState({ userNameTextField: ""
+                 });
     });
 
         
     socket.on('msgAdded', data =>{
-      dispatch(actions.addMessage(data));
+        //I did this to reduce the updates to the store 
+        //since in my server file Iam emmiting the event to ALL sockets including the one firing the event
+        // tho the beauty of redux is that it wont duplicate the same object :) 
+        let msgExists = this.props.messages.some((msg)=>{
+          return msg.id === data.id;
+        });
+        if(!msgExists){
+          dispatch(actions.addMessage(data));
+        }
     });
    
  }
@@ -60,25 +80,33 @@ export default class Home extends Component {
 
 
  handleAddUser() {
-  //TODO do some validation 
-  //make sure no duplicate users sanitize the string from any chars that are not allowed 
+   //do some validation 
+  let currTxtVal = this.state.userNameTextField ;
+  if(currTxtVal && currTxtVal.trim().length > 0){
+    let userExists = this.props.users.some((user)=>{
+      return user.name == currTxtVal;
+    });
+    if(userExists){
+      alert("Sorry . user name ( " +currTxtVal + " ) already exists . Please enter a unique name");
+    }
+    else{
+      const { socket, users, dispatch} = this.props;     
+      let newUser = { name : currTxtVal, id: this.generateNewGUID()}; 
 
-  const { socket, users, dispatch} = this.props;     
-  let newUser = { name : this.state.userNameTextField , id: this.generateNewGUID()}; 
-
-  dispatch(actions.addUser(newUser));
-  dispatch(actions.selectUser(newUser));
-  socket.emit('addUser', newUser);
-
-  //clear state and field vals
-   this.setState({ userNameTextField: ""
+      dispatch(actions.addUser(newUser));
+      dispatch(actions.selectUser(newUser));
+      socket.emit('addUser', newUser);
+     }
+    //clear state and field vals
+     this.setState({ userNameTextField: ""
                  });
+  }
  }
 
 
 
  handleMsgTextFieldChange(event) {
-  debugger;
+  
   let fieldVal = event.target.value;
   this.setState({ msgTextField: fieldVal
                  });  
@@ -92,20 +120,21 @@ export default class Home extends Component {
 handleAddMessage() {
   //do some validation 
   //make sure no duplicate users sanitize the string from any chars that are not allowed 
+  
+    let currTxtVal = this.state.msgTextField ;
 
+  if(currTxtVal && currTxtVal.trim().length > 0){
+    const { socket, users, dispatch} = this.props;    
+    let newMsg = { socketId : socket.io.engine.id || '',user : this.props.selectedUser , msg: currTxtVal  ,id: this.generateNewGUID()}; 
 
-  const { socket, users, dispatch} = this.props;    
-  debugger;
-  let newMsg = { socketId : socket.io.engine.id || '',user : this.props.selectedUser , msg: this.state.msgTextField  ,id: this.generateNewGUID()}; 
+    dispatch(actions.addMessage(newMsg));
+    socket.emit('addMsg', newMsg);
 
-  dispatch(actions.addMessage(newMsg));
-  socket.emit('addMsg', newMsg);
-
-  //clear state and field vals
-   this.setState({ msgTextField: ""
-                 });
-     
-
+    //clear state and field vals
+     this.setState({ msgTextField: ""
+                   });
+       
+  }
  }
 
   render(){
@@ -159,7 +188,7 @@ handleAddMessage() {
                     <div className="input-group">
                       <input onChange={(evt)=> this.handleUserTextFieldChange(evt)} value={this.state.userNameTextField} type="text" className="form-control" placeholder="type in a user name"/>
                       <span className="input-group-btn">  
-                        <button disabled={!this.state.userNameTextField || this.state.userNameTextField===''} onClick={(evt)=> this.handleAddUser(evt)} type="button" className="btn btn-primary">Add</button>
+                        <button disabled={!this.state.userNameTextField || this.state.userNameTextField.trim() ===''} onClick={(evt)=> this.handleAddUser(evt)} type="button" className="btn btn-primary">Add</button>
                       </span>
                     </div>
                     </div>
@@ -199,7 +228,7 @@ handleAddMessage() {
                         className="form-control" 
                         placeholder="type in a msg..."/>
                         <span style={{lineHeight: "90px"}} className="input-group-btn">  
-                          <button style={{height: "90px"}} disabled={!this.state.msgTextField || this.state.msgTextField === ''} onClick={(evt)=> this.handleAddMessage(evt)} type="button" className="btn btn-primary">Send</button>
+                          <button style={{height: "90px"}} disabled={!this.state.msgTextField || this.state.msgTextField.trim()  === ''} onClick={(evt)=> this.handleAddMessage(evt)} type="button" className="btn btn-primary">Send</button>
                         </span>
                       </div>
 

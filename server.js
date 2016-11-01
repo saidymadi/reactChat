@@ -26,6 +26,8 @@ var server = app.listen(port, () => {
 });
 
 
+//in this simple server I am emmitting everything to every connected socket
+
 var io = require('socket.io').listen(server);
 
 io.sockets.on('connection', function(socket) {
@@ -43,8 +45,16 @@ io.sockets.on('connection', function(socket) {
     });
 
     socket.on('addUser', function(data) {
-        users.push(data);
-        io.sockets.emit('userAdded',data);
+        let userExists =  users.some((user)=>{
+                  return user.name == currTxtVal;
+         });
+        if(userExists){
+            io.sockets.emit('errorOnAddingUser',data);
+        }
+        else{
+            users.push(data);
+            io.sockets.emit('userAdded',data);
+        }
     });
 
     socket.on('addMsg', function(data) {   
