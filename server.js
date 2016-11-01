@@ -1,14 +1,6 @@
 var express = require('express');
 var app = express();
 
-const ADD_MESSAGE = 'ADD_MESSAGE';
-const RECEIVE_MESSAGE = 'RECEIVE_MESSAGE';
-const ADD_USER = 'ADD_USER';
-const RECEIVE_USER = 'RECEIVE_USER';
-const SELECT_USER = 'SELECT_USER';
-
-
-
 //cache results on the server 
 //Ideally in a full stack you'd use some DB ... 
 users = [];
@@ -30,7 +22,7 @@ app.get('*', (req, res) => {
 const port = process.env.PORT || 3000;
 
 var server = app.listen(port, () => {
-  
+  console.log("server is  listining on port "+port);
 });
 
 

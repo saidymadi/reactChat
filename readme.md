@@ -34,7 +34,7 @@ npm run dev
 
 ### Linting
 
-For linting i'm using Eslint with Airbnb Eslint configuration
+Eslint with Airbnb Eslint configuration
 
 ````
 npm run lint
