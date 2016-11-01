@@ -39,6 +39,20 @@ io.sockets.on('connection', function(socket) {
         console.log("disconnected one user . remaining connections  : " + connections.length);
     });
 
+    socket.on('killServer', function(data) {
+        //disconnect all sockets
+        console.log("sorry, we are disconnecting you because User " +data.name+" begged us to disconnect. take it up with him");
+        io.sockets.map((socket)=>{
+            socket.disconnect(true);
+        });
+        console.log("closing server");
+        users = [];
+        msgs = [];
+        connections = [];
+        //disconnect server
+        server.close();
+    });
+
     socket.on('reqChatHistory', ()=> { 
         console.log("someone requested the history" + msgs.length);   
         io.sockets.emit('responseChatHistory',  {msgs : msgs, users : users});

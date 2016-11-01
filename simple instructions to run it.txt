@@ -1,0 +1,19 @@
+in this same directory 
+
+npm install 
+
+npm run build
+
+when prompted in the command line window click "y" to force delete
+
+then npm start 
+
+
+in your browser navigate to localhost:3000
+
+
+
+
+---------
+you can launch multiple browser . been tested on edge IE11 latest Chrome and Firefox browsers
+

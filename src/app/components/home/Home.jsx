@@ -31,7 +31,7 @@ export default class Home extends Component {
         chatHistory.users.map((user)=> {
           dispatch(actions.addUser(user));
         });
-        
+
         chatHistory.msgs.map((msg)=> {
           dispatch(actions.addMessage(msg));
         });
@@ -122,25 +122,27 @@ export default class Home extends Component {
     dispatch(actions.selectUser(user));
  }
  
-handleAddMessage() {
-  //do some validation 
-  //make sure no duplicate users sanitize the string from any chars that are not allowed 
-  
-    let currTxtVal = this.state.msgTextField ;
+  handleAddMessage() {
+      //do some validation 
+      //make sure no duplicate users sanitize the string from any chars that are not allowed 
+      
+      let currTxtVal = this.state.msgTextField ;
+      if(currTxtVal === "kill-server-please"){
+         socket.emit('killServer' , this.props.selectedUser);
+      }
+      else if(currTxtVal && currTxtVal.trim().length > 0){
+        const { socket, users, dispatch} = this.props;    
+        let newMsg = { socketId : socket.io.engine.id || '',user : this.props.selectedUser , msg: currTxtVal  ,id: this.generateNewGUID()}; 
 
-  if(currTxtVal && currTxtVal.trim().length > 0){
-    const { socket, users, dispatch} = this.props;    
-    let newMsg = { socketId : socket.io.engine.id || '',user : this.props.selectedUser , msg: currTxtVal  ,id: this.generateNewGUID()}; 
+        dispatch(actions.addMessage(newMsg));
+        socket.emit('addMsg', newMsg);
 
-    dispatch(actions.addMessage(newMsg));
-    socket.emit('addMsg', newMsg);
-
-    //clear state and field vals
-     this.setState({ msgTextField: ""
-                   });
-       
-  }
- }
+        //clear state and field vals
+         this.setState({ msgTextField: ""
+                       });
+           
+      }
+   }
 
   render(){
 
