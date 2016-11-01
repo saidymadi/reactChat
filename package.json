@@ -4,7 +4,7 @@
   "description": "A lightweight prototype chat client using React Redux Socket.IO",
   "scripts": {
     "dev": "webpack-dev-server --config ./webpack/webpack-dev.config.js --watch --colors",
-    "build": "rmdir /s /q dist && webpack --config ./webpack/webpack-prod.config.js --colors",
+    "build": "del /f -rf dist && webpack --config ./webpack/webpack-prod.config.js --colors",
     "start": "node ./server.js",
     "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js --recursive ./test",
     "test:watch": "npm run test -- --watch",
