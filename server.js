@@ -46,8 +46,8 @@ io.sockets.on('connection', function(socket) {
     });
 
     socket.on('reqChatHistory', ()=> { 
-         console.log("someone requested the history" + msgs.length);   
-        socket.broadcast.emit('responseChatHistory',  {msgs : msgs, users : users});
+        console.log("someone requested the history" + msgs.length);   
+        io.sockets.emit('responseChatHistory',  {msgs : msgs, users : users});
     });
 
     socket.on('addUser', function(data) {

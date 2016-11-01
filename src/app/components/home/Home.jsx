@@ -25,14 +25,15 @@ export default class Home extends Component {
     socket.emit('reqChatHistory');
 
     socket.on('responseChatHistory', (chatHistory) =>{
+      console.log("load cached chat history " + chatHistory);
       if(chatHistory){
         //add every user 
         console.log("load cached chat history " + chatHistory);
-        chatInfo.chatHistory.users.filter((user)=> {
+        chatHistory.users.map((user)=> {
           dispatch(actions.addUser(user));
         });
-        chatInfo.chatHistory.msgs.filter((msg)=> {
-           socket.emit('addMsg', msg);
+        chatHistory.msgs.map((msg)=> {
+          dispatch(actions.addMessage(msg));
         });
       }
      
