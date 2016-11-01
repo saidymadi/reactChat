@@ -1,6 +1,6 @@
 import React, { PropTypes , Component} from 'react';
 import * as actions from '../common/actions/index';
-
+import ReactDOM from 'react-dom';
 export default class Home extends Component {
   //It would have been sufficient to keep the selectedUser as a component internal state value 
   static propTypes = {
@@ -121,7 +121,22 @@ export default class Home extends Component {
     const { socket, users, dispatch} = this.props;     
     dispatch(actions.selectUser(user));
  }
+
+
+ componentDidUpdate(){
+    //scroll to the bottom of the msg stream 
+   if(this.props.messages.length > 0){
+      let  lastMsgIndex = this.props.messages.length - 1;
+      let  lastMsg = this.props.messages[lastMsgIndex];
+
+      let node = ReactDOM.findDOMNode(this['_li' + lastMsg.id ]);
+     if(node){
+        node.scrollIntoView();
+      }
+   }
  
+ }
+
   handleAddMessage() {
       //do some validation 
       //make sure no duplicate users sanitize the string from any chars that are not allowed 
@@ -166,7 +181,7 @@ export default class Home extends Component {
 
    var msgItems = this.props.messages.map((item) => {
           if(this.props.socket.io.engine.id != item.socketId){
-            return (<li style={{padding:"0px" , marginBottom:"6px" , border:"none" , wordWrap: "normal" , textAlign: "left" }} 
+            return (<li  ref={(ref) => this['_li' + item.id] = ref} style={{padding:"0px" , marginBottom:"6px" , border:"none" , wordWrap: "normal" , textAlign: "left" }} 
               className="list-group-item animated fadeIn" 
               key={item.id}>
                
