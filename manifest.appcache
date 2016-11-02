@@ -11,15 +11,14 @@ CACHE:
 http://localhost:3000/
 
 #style sheets
-http://localhost:3000/styles/app.0f13582384964b55ed81.css
+http://localhost:3000/styles/app.123.css
 //maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css
-
 
 #style sheet images
 
 
 #javascript files
-http://localhost:3000/scripts/app.0f13582384964b55ed81.js
+http://localhost:3000/scripts/app.123.js
 
 NETWORK:
 *
