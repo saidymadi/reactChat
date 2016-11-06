@@ -1,6 +1,6 @@
 CACHE MANIFEST
 
-#version 1.0 11-2-2016
+#version 1.1 11-6-2016
 
 CACHE:
 
@@ -12,7 +12,6 @@ http://localhost:3000/
 
 #style sheets
 http://localhost:3000/styles/app.123.css
-//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css
 
 #style sheet images
 
